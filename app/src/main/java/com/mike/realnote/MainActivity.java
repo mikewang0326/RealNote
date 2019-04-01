@@ -57,9 +57,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViewModel() {
-        final Observer<List<NoteEntity>> noteObserver = new Observer<List<NoteEntity>>() {
+        Observer<List<NoteEntity>> noteObserver = new Observer<List<NoteEntity>>() {
             @Override
             public void onChanged(List<NoteEntity> noteEntities) {
+                notesData.clear();
                 notesData.addAll(noteEntities);
 
                 if (null == mAdapter) {
@@ -100,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_add_sample_data) {
             addSampleData();
             return true;
+        } else if (id  == R.id.action_delete_all_sample_data) {
+            deleteAllNotes();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -107,5 +111,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void addSampleData() {
         mMainViewModel.addSampleData();
+    }
+
+    private void deleteAllNotes() {
+        mMainViewModel.deleteAllNotes();
     }
 }

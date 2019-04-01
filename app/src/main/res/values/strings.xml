@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">RealNote</string>
-    <string name="action_and_sample_data">Add sample data</string>
+    <string name="action_add_sample_data">Add sample data</string>
+    <string name="action_delete_all_sample_data">Delete all sample data</string>
     <string name="title_activity_editor">EditorActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"

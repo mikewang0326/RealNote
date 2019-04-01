@@ -17,8 +17,8 @@ import butterknife.ButterKnife;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
 
-    private final List<NoteEntity> mNotes;
-    private final Context mContext;
+    private List<NoteEntity> mNotes;
+    private Context mContext;
 
     public NotesAdapter(List<NoteEntity> mNotes, Context mContext) {
         this.mNotes = mNotes;
