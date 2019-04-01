@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -81,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
         mRecycleView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecycleView.setLayoutManager(layoutManager);
+
+        DividerItemDecoration divider = new DividerItemDecoration(mRecycleView.getContext(),
+                layoutManager.getOrientation());
+        mRecycleView.addItemDecoration(divider);
     }
 
     @Override
