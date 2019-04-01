@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.mike.realnote.model.NoteEntity;
+import com.mike.realnote.ui.NotesAdapter;
 import com.mike.realnote.util.SampleData;
 
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView mRecycleView;
 
     private List<NoteEntity> notesData = new ArrayList<>();
+    private NotesAdapter mAdapter;
 
 
     @Override
@@ -61,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
         mRecycleView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecycleView.setLayoutManager(layoutManager);
+
+        mAdapter = new NotesAdapter(notesData, this);
+        mRecycleView.setAdapter(mAdapter);
 
     }
 
