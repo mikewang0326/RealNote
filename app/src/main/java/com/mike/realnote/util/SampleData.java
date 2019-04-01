@@ -33,9 +33,9 @@ public class SampleData {
 
     public static List<NoteEntity> getNotes() {
         List<NoteEntity> notes = new ArrayList<>();
-        notes.add(new NoteEntity(1, getDate(0), TEXT_1));
-        notes.add(new NoteEntity(1, getDate(-1), TEXT_2));
-        notes.add(new NoteEntity(1, getDate(-2), TEXT_3));
+        notes.add(new NoteEntity(getDate(0), TEXT_1));
+        notes.add(new NoteEntity(getDate(-1), TEXT_2));
+        notes.add(new NoteEntity(getDate(-2), TEXT_3));
 
         return notes;
     }
