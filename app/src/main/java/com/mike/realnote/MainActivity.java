@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mike.realnote.model.NoteEntity;
 import com.mike.realnote.ui.NotesAdapter;
-import com.mike.realnote.util.SampleData;
+import com.mike.realnote.viewmodel.MainViewModel;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<NoteEntity> notesData = new ArrayList<>();
     private NotesAdapter mAdapter;
+    private MainViewModel mMainViewModel;
 
 
     @Override
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
+        initViewModel();
         initRecycleView();
 
         FloatingActionButton fab = findViewById(R.id.main_fab);
@@ -51,12 +54,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        notesData.addAll(SampleData.getNotes());
+        notesData.addAll(mMainViewModel.mNotes);
 
         for (NoteEntity note: notesData) {
             Log.i(TAG, note.toString());
         }
 
+    }
+
+    private void initViewModel() {
+        mMainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
     }
 
     private void initRecycleView() {
