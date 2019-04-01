@@ -5,6 +5,7 @@ import com.mike.realnote.util.Constant;
 import com.mike.realnote.viewmodel.EditorViewModel;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -54,5 +55,25 @@ public class EditorActivity extends AppCompatActivity {
             mEditorViewModel.loadData(noteId);
             mNewnote = false;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            saveAndReturn();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        saveAndReturn();
+        super.onBackPressed();
+    }
+
+    private void saveAndReturn() {
+        mEditorViewModel.saveNote(mTextView.getText().toString());
+        finish();
     }
 }

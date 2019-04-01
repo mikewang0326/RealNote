@@ -31,4 +31,14 @@ public class EditorViewModel extends AndroidViewModel {
             }
         });
     }
+
+    public void saveNote(String noteText) {
+        NoteEntity note = mLiveNote.getValue();
+
+        if (null != note) {
+            note.setText(noteText);
+        }
+
+        mRepository.insertNote(note);
+    }
 }
