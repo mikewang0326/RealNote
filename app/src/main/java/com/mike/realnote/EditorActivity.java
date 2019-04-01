@@ -5,6 +5,8 @@ import com.mike.realnote.util.Constant;
 import com.mike.realnote.viewmodel.EditorViewModel;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,9 +63,23 @@ public class EditorActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             saveAndReturn();
+            return true;
+        } else if (item.getItemId() == R.id.action_delete) {
+            mEditorViewModel.deleteNote();
+            finish();
         }
 
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (!mNewnote) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_editor, menu);
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

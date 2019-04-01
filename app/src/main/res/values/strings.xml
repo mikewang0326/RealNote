@@ -6,4 +6,5 @@
     <string name="edit_note">Edit Note</string>
     <string name="title_activity_editor">EditorActivity</string>
     <string name="enter_note">Enter note</string>
+    <string name="delete">Delete</string>
 </resources>
