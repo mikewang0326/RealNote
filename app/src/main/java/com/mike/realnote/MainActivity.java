@@ -10,12 +10,12 @@ import com.mike.realnote.viewmodel.MainViewModel;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
-        initViewModel();
         initRecycleView();
+        initViewModel();
 
         FloatingActionButton fab = findViewById(R.id.main_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -54,26 +54,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        notesData.addAll(mMainViewModel.mNotes);
-
-        for (NoteEntity note: notesData) {
-            Log.i(TAG, note.toString());
-        }
-
     }
 
     private void initViewModel() {
+        final Observer<List<NoteEntity>> noteObserver = new Observer<List<NoteEntity>>() {
+            @Override
+            public void onChanged(List<NoteEntity> noteEntities) {
+                notesData.addAll(noteEntities);
+
+                if (null == mAdapter) {
+                    mAdapter = new NotesAdapter(notesData, MainActivity.this);
+                    mRecycleView.setAdapter(mAdapter);
+                } else {
+                    mAdapter.notifyDataSetChanged();
+                }
+
+            }
+        };
+
         mMainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mMainViewModel.mNotes.observe(this, noteObserver);
     }
 
     private void initRecycleView() {
         mRecycleView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecycleView.setLayoutManager(layoutManager);
-
-        mAdapter = new NotesAdapter(notesData, this);
-        mRecycleView.setAdapter(mAdapter);
-
     }
 
     @Override
@@ -91,10 +97,15 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_add_sample_data) {
+            addSampleData();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addSampleData() {
+        mMainViewModel.addSampleData();
     }
 }
