@@ -5,6 +5,7 @@ import com.mike.realnote.util.Constant;
 import com.mike.realnote.viewmodel.EditorViewModel;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +24,8 @@ public class EditorActivity extends AppCompatActivity {
 
     private EditorViewModel mEditorViewModel;
     private boolean mNewnote = false;
+    private boolean mEditing = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,10 @@ public class EditorActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ButterKnife.bind(this);
+
+        if (savedInstanceState != null) {
+            mEditing = savedInstanceState.getBoolean(Constant.EDITTING_KEY);
+        }
         
         initViewModel();
     }
@@ -43,7 +50,9 @@ public class EditorActivity extends AppCompatActivity {
         mEditorViewModel.mLiveNote.observe(this, new Observer<NoteEntity>() {
             @Override
             public void onChanged(NoteEntity noteEntity) {
-                mTextView.setText(noteEntity.getText());
+                if (noteEntity != null && !mEditing) {
+                    mTextView.setText(noteEntity.getText());
+                }
             }
         });
 
@@ -91,5 +100,11 @@ public class EditorActivity extends AppCompatActivity {
     private void saveAndReturn() {
         mEditorViewModel.saveNote(mTextView.getText().toString());
         finish();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        outState.putBoolean(Constant.EDITTING_KEY, true);
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 }
