@@ -1,6 +1,7 @@
 package com.mike.realnote;
 
 import com.mike.realnote.model.NoteEntity;
+import com.mike.realnote.util.Constant;
 import com.mike.realnote.viewmodel.EditorViewModel;
 
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class EditorActivity extends AppCompatActivity {
 
 
     private EditorViewModel mEditorViewModel;
+    private boolean mNewnote = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,5 +43,16 @@ public class EditorActivity extends AppCompatActivity {
                 mTextView.setText(noteEntity.getText());
             }
         });
+
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            setTitle("New Note");
+            mNewnote = true;
+        } else {
+            setTitle("Edit note");
+            int noteId = extras.getInt(Constant.NOTE_ID_KEY);
+            mEditorViewModel.loadData(noteId);
+            mNewnote = false;
+        }
     }
 }

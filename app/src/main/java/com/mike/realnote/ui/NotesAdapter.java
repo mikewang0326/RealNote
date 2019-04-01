@@ -1,11 +1,16 @@
 package com.mike.realnote.ui;
 
+import static com.mike.realnote.util.Constant.NOTE_ID_KEY;
+
 import java.util.List;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mike.realnote.EditorActivity;
 import com.mike.realnote.R;
 import com.mike.realnote.model.NoteEntity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +43,15 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final NoteEntity note = mNotes.get(position);
         holder.mTextView.setText(note.getText());
+
+        holder.mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, EditorActivity.class);
+                intent.putExtra(NOTE_ID_KEY, note.getId());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -48,6 +62,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.note_text)
         TextView mTextView;
+
+        @BindView(R.id.note_item_fab)
+        FloatingActionButton mFab;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
